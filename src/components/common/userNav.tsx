@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router"
-import { getLocalItem, removeLocalItem } from "../../utils"
+
 import { useCurrentUser } from "../../hooks/useCurrentUser"
+import { getToken, removeToken } from "../../utils/authUtils"
 
 const UserNav = () => {
-  const token = getLocalItem("token")
+  const token = getToken()
 
   return <>{token ? <UserMenu /> : <AuthActions />}</>
 }
@@ -24,7 +25,7 @@ const UserMenu = () => {
   const { data: currentUser } = useCurrentUser()
 
   const handleLogout = () => {
-    removeLocalItem("token")
+    removeToken()
   }
 
   return (

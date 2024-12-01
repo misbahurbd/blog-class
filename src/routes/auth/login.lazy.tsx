@@ -8,7 +8,7 @@ import {
 import { Controller, useForm } from "react-hook-form"
 import { z } from "zod"
 import { useLogin } from "../../hooks/useLogin"
-import { getLocalItem, setLocalItem } from "../../utils"
+import { getToken, setToken } from "../../utils/authUtils"
 
 const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
@@ -16,7 +16,7 @@ const loginSchema = z.object({
 })
 
 const LoginPage = () => {
-  const token = getLocalItem("token")
+  const token = getToken()
   const { mutateAsync: login, isPending } = useLogin()
   const navigate = useNavigate()
 
@@ -33,7 +33,7 @@ const LoginPage = () => {
     try {
       const res = await login(value)
       if (res.accessToken) {
-        setLocalItem("token", res.accessToken)
+        setToken(res.accessToken)
         navigate({ to: "/" })
       }
     } catch (error: any) {
